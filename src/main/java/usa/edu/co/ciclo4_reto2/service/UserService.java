@@ -23,12 +23,12 @@ public class UserService {
         return userRepository.getAll();
     }
 
-    public boolean existEmail(String email){
-        return userRepository.existEmail(email);
-    }
-
     public Optional<User> getUser(int id){
         return userRepository.getUser(id);
+    }
+
+    public boolean existEmail(String email){
+        return userRepository.existEmail(email);
     }
 
     public User authenticateUser(String email, String password){

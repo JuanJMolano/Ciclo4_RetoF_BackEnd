@@ -13,6 +13,7 @@ import java.util.Optional;
  */
 
 public interface LaptopCrudRepository extends MongoRepository<Laptop, Integer> {
+
     Optional<Laptop> findTopByOrderByIdDesc();
 
     //Reto 5

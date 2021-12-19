@@ -51,8 +51,8 @@ public class LaptopController {
     }
 
     @GetMapping("/price/{price}")
-    public List<Laptop> productsByPrice(@PathVariable("price") double precio){
-        return laptopService.productsByPrice(precio);
+    public List<Laptop> productsByPrice(@PathVariable("price") double price){
+        return laptopService.laptopsByPrice(price);
     }
 
     //Reto 5

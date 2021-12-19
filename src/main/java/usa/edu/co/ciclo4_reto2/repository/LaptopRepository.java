@@ -18,30 +18,21 @@ public class LaptopRepository {
     @Autowired
     private LaptopCrudRepository laptopCrudRepository;
 
-    public List<Laptop> getAll(){
-        return laptopCrudRepository.findAll();
-    }
+    public List<Laptop> getAll(){return laptopCrudRepository.findAll();}
 
-    public Optional<Laptop> getLaptop(int id){                          //Buscar por ID para el metodo delete
-        return laptopCrudRepository.findById(id);
-    }
+    public Optional<Laptop> getLaptop(int id){return laptopCrudRepository.findById(id);}
 
-    public Optional<Laptop> lastUserId(){return laptopCrudRepository.findTopByOrderByIdDesc();}
+    public Laptop create(Laptop laptop){return laptopCrudRepository.save(laptop);}
 
-    public Laptop create(Laptop laptop){
-        return laptopCrudRepository.save(laptop);
-    }
-
-    public void update(Laptop laptop){
-        laptopCrudRepository.save(laptop);
-    }
+    public void update(Laptop laptop){laptopCrudRepository.save(laptop);}
 
     public void delete(Laptop laptop){laptopCrudRepository.delete(laptop);}
 
-    //Reto 5
-    public List<Laptop> productsByPrice(double precio){
+    public Optional<Laptop> lastUserId(){return laptopCrudRepository.findTopByOrderByIdDesc();}
+
+    public List<Laptop> laptopsByPrice(double precio) {
         return laptopCrudRepository.findByPriceLessThanEqual(precio);
     }
-
-    public List<Laptop> findByDescriptionLike(String description){return laptopCrudRepository.findByDescriptionLike(description);}
+    //Reto 5
+    public List<Laptop> findByDescriptionLike(String description) {return laptopCrudRepository.findByDescriptionLike(description);}
 }
