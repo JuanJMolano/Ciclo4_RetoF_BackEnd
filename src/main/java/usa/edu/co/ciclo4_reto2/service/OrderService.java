@@ -28,7 +28,6 @@ public class OrderService {
     }
 
     public Order create(Order order) {
-
         Optional<Order> orderIdMaxima = orderRepository.lastUserId();
 
         if (order.getId() == null) {

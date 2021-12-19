@@ -32,14 +32,6 @@ public class UserController {
         return userService.getUser(id);
     }
 
-    @GetMapping("/emailexist/{email}")
-    public boolean existEmail(@PathVariable("email") String email){
-        return userService.existEmail(email);
-    }
-
-    @GetMapping("/{email}/{password}")
-    public User authenticateUser(@PathVariable("email") String email, @PathVariable("password") String password){return userService.authenticateUser(email, password);}
-
     @PostMapping("/new")
     @ResponseStatus(HttpStatus.CREATED)
     public User create(@RequestBody User user){
@@ -57,6 +49,14 @@ public class UserController {
     public boolean delete(@PathVariable("id") int id){
         return userService.delete(id);
     }
+
+    @GetMapping("/emailexist/{email}")
+    public boolean existEmail(@PathVariable("email") String email){
+        return userService.existEmail(email);
+    }
+
+    @GetMapping("/{email}/{password}")
+    public User authenticateUser(@PathVariable("email") String email, @PathVariable("password") String password){return userService.authenticateUser(email, password);}
 
     @GetMapping("/birthday/{month}")
     public List<User> listBirthtDayMonth(@PathVariable("month") String month){return userService.listBirthtDayMonth(month);}

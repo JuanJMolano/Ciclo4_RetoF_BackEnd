@@ -46,31 +46,17 @@ public class OrderRepository {
         orderCrudRepository.delete(order);
     }
 
-    public Optional<Order> lastUserId(){
-        return orderCrudRepository.findTopByOrderByIdDesc();
-    }
-
     public List<Order> findByZone(String zona) {
         return orderCrudRepository.findByZone(zona);
     }
 
+    public Optional<Order> lastUserId(){return orderCrudRepository.findTopByOrderByIdDesc();}
+
+
     //Reto 4
     public List<Order> ordersSalesManByID(Integer id) {
-
         Query query = new Query();
         Criteria dateCriteria = Criteria.where("salesMan.id").is(id);
-
-        query.addCriteria(dateCriteria);
-        List<Order> orders = mongoTemplate.find(query, Order.class);
-
-        return orders;
-    }
-
-    public List<Order> ordersSalesManByState(String state, Integer id) {
-
-        Query query = new Query();
-        Criteria dateCriteria = Criteria.where("salesMan.id").is(id)
-                .and("status").is(state);
 
         query.addCriteria(dateCriteria);
         List<Order> orders = mongoTemplate.find(query, Order.class);
@@ -86,6 +72,18 @@ public class OrderRepository {
                 .gte(LocalDate.parse(dateStr, dtf).minusDays(1).atStartOfDay())
                 .lt(LocalDate.parse(dateStr, dtf).plusDays(2).atStartOfDay())
                 .and("salesMan.id").is(id);
+
+        query.addCriteria(dateCriteria);
+        List<Order> orders = mongoTemplate.find(query, Order.class);
+
+        return orders;
+    }
+
+    public List<Order> ordersSalesManByState(String state, Integer id) {
+
+        Query query = new Query();
+        Criteria dateCriteria = Criteria.where("salesMan.id").is(id)
+                .and("status").is(state);
 
         query.addCriteria(dateCriteria);
         List<Order> orders = mongoTemplate.find(query, Order.class);

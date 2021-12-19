@@ -1,6 +1,7 @@
 package usa.edu.co.ciclo4_reto2.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.stereotype.Service;
 import usa.edu.co.ciclo4_reto2.model.Laptop;
 import usa.edu.co.ciclo4_reto2.repository.LaptopRepository;
@@ -15,19 +16,18 @@ import java.util.Optional;
 
 @Service
 public class LaptopService {
+
     @Autowired
     LaptopRepository laptopRepository;
 
-    public List<Laptop> getAll(){
-        return laptopRepository.getAll();
-    }
+    @Autowired
+    private MongoTemplate mongoTemplate;
 
-    public Optional<Laptop> getLaptop(int id){
-        return laptopRepository.getLaptop(id);
-    }
+    public List<Laptop> getAll(){return laptopRepository.getAll();}
+
+    public Optional<Laptop> getLaptop(int id){return laptopRepository.getLaptop(id);}
 
     public Laptop create(Laptop laptop) {
-
         Optional<Laptop> laptopLastId = laptopRepository.lastUserId();
 
         if (laptop.getId() == null) {
@@ -37,7 +37,6 @@ public class LaptopService {
             else
                 laptop.setId(laptopLastId.get().getId() + 1);
         }
-
         Optional<Laptop> existLaptop = laptopRepository.getLaptop(laptop.getId());
         if (existLaptop.isEmpty()) {
             return laptopRepository.create(laptop);
@@ -94,20 +93,19 @@ public class LaptopService {
         }
     }
 
-    public boolean delete(int id){
-        Optional<Laptop> laptopOptional = laptopRepository.getLaptop(id);
-        if(!laptopOptional.isEmpty()){
-            laptopRepository.delete(laptopOptional.get());
+    public boolean delete(int id) {
+        Boolean aBoolean = getLaptop(id).map(product -> {
+            laptopRepository.delete(product);
             return true;
-        }
-        return false;
+        }).orElse(false);
+        return aBoolean;
+    }
+
+    public List<Laptop> laptopsByPrice(double price) {
+        return laptopRepository.laptopsByPrice(price);
     }
 
     //Reto 5
-    public List<Laptop> productsByPrice(double precio){
-        return laptopRepository.productsByPrice(precio);
-    }
-
     public List<Laptop> findByDescriptionLike(String description) {
         return laptopRepository.findByDescriptionLike(description);
     }
